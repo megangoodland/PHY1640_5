@@ -38,7 +38,7 @@ void print( const state_type &x , const double t )
 // x = ( S, K, Z )
 void zombie_odes( const state_type &x , state_type &dxdt , double t )
 {
-    dxdt[0] = -(B*x[0]*x[2])-(E*x[0]*x[2]);
+    dxdt[0] = -(B*x[0]*x[2])-(E*x[0]*x[1]);
     dxdt[1] = -(C*x[1]*x[2])+(E*x[0]*x[1]);
     dxdt[2] = -(B*x[0]*x[2])+(C*x[1]*x[2])-(A*x[1]*x[2]);
 }
