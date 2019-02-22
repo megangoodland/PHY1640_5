@@ -21,7 +21,7 @@ using namespace std;
 // defining constants and initial conditions
 const double A = 0.03;  // rate at which zombies are killed by K
 const double B = 0.02;  // rate at which regular people are turned into Z
-const double C = 0.03;  // rate as which zombie killers are turned into Zombies
+const double C = 0.01;  // rate as which zombie killers are turned into Zombies
 const double E = 0.015; // rate at which zombie killers teach regular people how to kill zombies
 const double K0 = 9; // number of people who can kill zombies
 double Z0 = 5; // number of zombies: will be varying this value
