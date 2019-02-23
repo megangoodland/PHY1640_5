@@ -24,7 +24,7 @@ const double B = 0.02;  // rate at which regular people are turned into Z
 const double C = 0.01;  // rate as which zombie killers are turned into Zombies
 const double E = 0.015; // rate at which zombie killers teach regular people how to kill zombies
 const double K0 = 9; // number of people who can kill zombies
-double Z0 = 5; // number of zombies: will be varying this value
+double Z0 = 263; // number of zombies: will be varying this value
 double S0 = 491 - Z0; // number of regular people who can't kill zombies
 
 
@@ -47,5 +47,5 @@ void zombie_odes( const state_type &x , state_type &dxdt , double t )
 int main() { 
   state_type x = {S0, K0, Z0}; // initial conditions
   // integrate needs (system, x0, t0, t1, dt, observer)
-  integrate( zombie_odes , x , 0.0 , 25.0 , 0.1 , print );
+  integrate( zombie_odes , x , 0.0 , 50.0 , 0.01 , print );
 }
