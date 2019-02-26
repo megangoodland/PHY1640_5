@@ -113,9 +113,27 @@ int netCDF_read() {
     // Put the data in a var.
     double dataOut[nx][ny][nz];
     data.getVar(&dataOut);
+    
+    // Formatting the printout
     for(int z=0; z<nz; z++){
+        if(z<1){
+            cout << "With 16 initial zombies, they lose" << endl;
+        }
+        else{
+            cout << endl; cout << endl;
+            cout << "With 263 initial zombies, they win" << endl;
+        }
+        cout << "time \t S \t K \t Z" << endl;
+        
         for (int y = 0; y < ny; y++) {
+            // want to break out of the loop if the data is all 0's
+            if ((dataOut[1][y][z]==0)&&(dataOut[2][y][z]==0)&&(dataOut[3][y][z]==0)){
+                break;
+            }
+            // if the data is not all 0's, print it!
+            else{
             cout << dataOut[0][y][z] << '\t' << dataOut[1][y][z] << '\t' << dataOut[2][y][z] << '\t' << dataOut[3][y][z] << endl;
+            }
         }
     }
     return 0; 
