@@ -5,10 +5,8 @@
 // dK/dt = - CKZ + ESK
 // dZ/dt = BSZ + CKZ - AKZ
 
-// Want to numerically solve the set of ODEs for several values of Z0 to determine the number of Z0 above which
-// the zombies will win. 
 // Outputs a netcdf file that contains (S, K, Z) population vs. time for two values of the initial Z0 values:
-// one in which the zombies win (everyone is zombies), and one in which they all disappear (Z<1). 
+// one in which the zombies win, and one in which they all disappear (Z<1). 
 
 
 #include <iostream>
@@ -142,7 +140,7 @@ int netCDF_read() {
 
 int main() { 
   // First case:
-  double Z0 = 16; // number of zombies: will be varying this value
+  double Z0 = 262; // number of zombies: will be varying this value {16}
   double S0 = 491 - Z0; // number of regular people who can't kill zombies
   state_type x = {S0, K0, Z0}; // initial conditions
   // integrate needs (system, x0, t0, t1, dt, observer)
@@ -150,7 +148,7 @@ int main() {
     
   // Second case:
   i = 0; // resetting integration steps
-  Z0 = 263; // new number of zombies 
+  Z0 = 261; // new number of zombies {263}
   S0 = 491 - Z0; // number of regular people who can't kill zombies
   x = {S0, K0, Z0}; // new initial conditions
   saves = 1; // counter for number of saves
