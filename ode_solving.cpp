@@ -14,6 +14,8 @@
 #include <iostream>
 #include <boost/numeric/odeint.hpp>
 #include <boost/array.hpp>
+#include <rarray>
+#include <rarrayio>
 using namespace boost::numeric::odeint;
 using namespace std;
 
@@ -24,15 +26,23 @@ const double B = 0.02;  // rate at which regular people are turned into Z
 const double C = 0.01;  // rate as which zombie killers are turned into Zombies
 const double E = 0.015; // rate at which zombie killers teach regular people how to kill zombies
 const double K0 = 9; // number of people who can kill zombies
-double Z0 = 263; // number of zombies: will be varying this value
-double S0 = 491 - Z0; // number of regular people who can't kill zombies
 
+int i = 0; // integration steps
+int saves = 0; // counter for number of saves
+double num = 50; // max time
+int max_observes = 200; // max number of observes we're doing
 
-typedef boost::array< double , 3 > state_type;
+// defining 3D array to hold data history
+// dimensions: tSKZ, max 200 observes, 2 saves
+rarray<double,3> history(4, max_observes, 2);
 
-void print( const state_type &x , const double t )
-{
-    cout << t << '\t' << x[0] << '\t' << x[1] << '\t' << x[2] << endl;
+// defining boost array to hold x = ( S, K, Z )
+typedef boost::array<double, 3> state_type;
+
+// saves data in array
+void add_to_array(const state_type &x , const double t){
+    history[0][i][saves] = t; history[1][i][saves] = x[0]; history[2][i][saves] = x[1]; history[3][i][saves] = x[2]; 
+    i = i+1;
 }
 
 // x = ( S, K, Z )
@@ -45,7 +55,18 @@ void zombie_odes( const state_type &x , state_type &dxdt , double t )
 
 
 int main() { 
+  // First case:
+  double Z0 = 16; // number of zombies: will be varying this value
+  double S0 = 491 - Z0; // number of regular people who can't kill zombies
   state_type x = {S0, K0, Z0}; // initial conditions
   // integrate needs (system, x0, t0, t1, dt, observer)
-  integrate( zombie_odes , x , 0.0 , 50.0 , 0.01 , print );
+  integrate( zombie_odes , x , 0.0 , num , 0.01 ,  add_to_array);
+    
+  // Second case:
+  i = 0; // resetting integration steps
+  Z0 = 263; // new number of zombies 
+  S0 = 491 - Z0; // number of regular people who can't kill zombies
+  x = {S0, K0, Z0}; // new initial conditions
+  saves = 1; // counter for number of saves
+  integrate(zombie_odes , x , 0.0 , num , 0.01 , add_to_array);
 }
